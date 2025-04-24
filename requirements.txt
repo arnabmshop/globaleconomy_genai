@@ -18,3 +18,8 @@ duckduckgo_search
 hf_xet
 transformers
 streamlit
+tensorflow
+torch
+tf-keras
+sentence-transformers
+python-dotenv

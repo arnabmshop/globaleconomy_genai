@@ -1,0 +1,32 @@
+import streamlit as st
+from dotenv import load_dotenv
+import os
+# Load environment variables from .env file
+load_dotenv()
+
+from utils import (
+    load_vectorstore_for_country_code,get_country_code_mapping, extract_countries_from_query_news,
+    fetch_articles, extract_countries_from_query, create_temp_vectorstore_from_news,
+    load_imf_vectorstore
+)
+from summarization_utils import * 
+from langchain.embeddings import HuggingFaceEmbeddings
+
+# --------------------- Streamlit UI ---------------------
+st.set_page_config(page_title="🌍 Global Economic Insight", layout="wide")
+
+st.title("🌍 Global Economic Insight Generator")
+st.markdown("Ask anything about a country's debt, economy, or financial indicators. Powered by World Bank, IMF, and news data.")
+
+query = st.text_input("🧠 Enter your question here:")
+run_button = st.button("Analyze")
+
+if run_button and query.strip():
+    with st.spinner("🔎 Fetching data and generating insights..."):
+        try:
+            response = build_parallel_rag_model(query)
+            st.success("✅ Analysis Complete")
+            st.markdown("### 📊 Answer:")
+            st.write(response)
+        except Exception as e:
+            st.error(f"❌ Error: {e}")

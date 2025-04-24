@@ -16,7 +16,6 @@ from newspaper import Article
 from transformers import pipeline
 import faiss
 from duckduckgo_search import DDGS
-from newspaper import Article
 from langchain.docstore.document import Document
 import shutil
 import tempfile
@@ -25,6 +24,9 @@ import zipfile
 import warnings
 from langchain.chat_models import ChatOpenAI
 from utils import load_vectorstore_for_country_code,get_country_code_mapping, extract_countries_from_query_news,fetch_articles, extract_countries_from_query, create_temp_vectorstore_from_news,load_imf_vectorstore
+from dotenv import load_dotenv
+# Load environment variables from .env file
+load_dotenv()
 
 # Set your Gemini API key securely
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
@@ -35,7 +37,7 @@ gemini_model = genai.GenerativeModel("gemini-1.5-pro")
 summarizer = pipeline("summarization")
 
 #-----------Loading all the batches of countries--------
-selected_codes_x = [folder for folder in os.listdir("/content/vectorstores") if os.path.isdir(os.path.join("/content/vectorstores", folder))]
+selected_codes_x = [folder for folder in os.listdir("/workspaces/globaleconomy_genai/vectorstores") if os.path.isdir(os.path.join("/workspaces/globaleconomy_genai/vectorstores", folder))]
 
 # Split countries into smaller batches for parallel processing
 max_countries_per_batch = 10  # Adjust based on your token limits
@@ -55,7 +57,7 @@ embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-Mi
 
 for i, batch in enumerate(batches):
     for country_code in batch:
-        vectorstore_path = os.path.join("/content/vectorstores", country_code)
+        vectorstore_path = os.path.join("/workspaces/globaleconomy_genai/vectorstores", country_code)
         if os.path.isdir(vectorstore_path):
             try:
                 vs = load_vectorstore_for_country_code(country_code, embedding_model)
@@ -165,7 +167,7 @@ Respond thoughtfully below:
 def load_imf_vectorstore():
     try:
         excel_vectorstore = FAISS.load_local(
-            "/content/imf_excel_vectorstore/content/excel_vectorstore",
+            "/workspaces/globaleconomy_genai/imf_excel_vectorstore/content/excel_vectorstore",
             HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2"),
             allow_dangerous_deserialization=True
         )
