@@ -7,3 +7,14 @@ google-generativeai
 faiss-cpu
 pandas
 python-dotenv
+newspaper3k
+requests
+google
+duckduckgo-search-api
+python-dotenv
+lxml_html_clean
+faiss-cpu
+duckduckgo_search
+hf_xet
+transformers
+streamlit
