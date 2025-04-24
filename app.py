@@ -16,7 +16,7 @@ from langchain.embeddings import HuggingFaceEmbeddings
 st.set_page_config(page_title="🌍 Global Economic Insight", layout="wide")
 
 st.title("🌍 Global Economic Insight Generator")
-st.markdown("Ask anything about a country's debt, economy, or financial indicators. Powered by World Bank, IMF, and news data.")
+st.markdown("Ask anything about a country's debt, economy, or financial indicators. Based on data open sourced from World Bank, IMF and Online News Articles.")
 
 query = st.text_input("🧠 Enter your question here:")
 run_button = st.button("Analyze")
