@@ -12,6 +12,11 @@ from utils import (
 from summarization_utils import * 
 from langchain.embeddings import HuggingFaceEmbeddings
 
+
+# Import the tools and agent executor from tools.py
+from tools import agent,tools  # Import the agent created in tools.py
+from langchain.agents import AgentExecutor
+
 # --------------------- Streamlit UI ---------------------
 st.set_page_config(page_title="🌍 Global Economic Insight", layout="wide")
 
@@ -21,10 +26,14 @@ st.markdown("Ask anything about a country's debt, economy, or financial indicato
 query = st.text_input("🧠 Enter your question here:")
 run_button = st.button("Analyze")
 
+# Initialize the AgentExecutor
+agent_executor = AgentExecutor(agent=agent, tools=tools)
+
 if run_button and query.strip():
     with st.spinner("🔎 Fetching data and generating insights..."):
         try:
-            response = build_parallel_rag_model(query)
+            #response = build_parallel_rag_model(query)
+            response = agent_executor.invoke({"input": query})
             st.success("✅ Analysis Complete")
             st.markdown("### 📊 Answer:")
             st.write(response)
