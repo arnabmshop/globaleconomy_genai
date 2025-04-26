@@ -3,6 +3,7 @@ import requests
 import logging
 from typing import List
 from langchain.embeddings import HuggingFaceEmbeddings
+from langchain.tools import tool
 from langchain.vectorstores import FAISS
 from langchain.schema import Document
 from langchain.chains import RetrievalQA
