@@ -117,7 +117,7 @@ def extract_countries_from_query_news(query: str, mapping: dict) -> List[str]:
 
 # -------------------- Load World Bank Vectorstore --------------------
 def load_vectorstore_for_country_code(code: str, embedding_model) -> FAISS:
-    path = os.path.join("./vectorstores", code)
+    path = os.path.join("/app/vectorstores", code)
     logger.info(f"📦 Looking for vectorstore at: {path}")
     
     if os.path.exists(path):
@@ -134,7 +134,7 @@ def load_vectorstore_for_country_code(code: str, embedding_model) -> FAISS:
 # --------- Load the IMF Vector Store --------------
 def load_imf_vectorstore() -> RetrievalQA:
     try:
-        excel_vectorstore = FAISS.load_local("./imf_excel_vectorstore/content/excel_vectorstore", 
+        excel_vectorstore = FAISS.load_local("/app/imf_excel_vectorstore/content/excel_vectorstore", 
                                             HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2"),
                                             allow_dangerous_deserialization=True)
         retriever = excel_vectorstore.as_retriever()
