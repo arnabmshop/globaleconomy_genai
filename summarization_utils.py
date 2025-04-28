@@ -37,7 +37,7 @@ gemini_model = genai.GenerativeModel("gemini-1.5-pro")
 summarizer = pipeline("summarization")
 
 #-----------Loading all the batches of countries--------
-selected_codes_x = [folder for folder in os.listdir("./vectorstores") if os.path.isdir(os.path.join("./vectorstores", folder))]
+selected_codes_x = [folder for folder in os.listdir("/app/vectorstores/") if os.path.isdir(os.path.join("/app/vectorstores/", folder))]
 
 # Split countries into smaller batches for parallel processing
 max_countries_per_batch = 10  # Adjust based on your token limits
@@ -57,7 +57,7 @@ embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-Mi
 
 for i, batch in enumerate(batches):
     for country_code in batch:
-        vectorstore_path = os.path.join("./vectorstores", country_code)
+        vectorstore_path = os.path.join("/app/vectorstores/", country_code)
         if os.path.isdir(vectorstore_path):
             try:
                 vs = load_vectorstore_for_country_code(country_code, embedding_model)
@@ -167,7 +167,7 @@ Respond thoughtfully below:
 def load_imf_vectorstore():
     try:
         excel_vectorstore = FAISS.load_local(
-            "./imf_excel_vectorstore/content/excel_vectorstore",
+            "/app/imf_excel_vectorstore/content/excel_vectorstore",
             HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2"),
             allow_dangerous_deserialization=True
         )
