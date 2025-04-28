@@ -18,7 +18,7 @@ COPY imf_excel_vectorstore /app/imf_excel_vectorstore
 COPY app.py tools.py utils.py summarization_utils.py /app/
 
 # Expose port 8501 (default for Streamlit)
-EXPOSE 8501
+EXPOSE 8080
 
 # Start Streamlit when the container runs
 CMD ["streamlit", "run", "app.py"]
