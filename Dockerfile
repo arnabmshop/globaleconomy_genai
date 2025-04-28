@@ -17,8 +17,8 @@ COPY imf_excel_vectorstore /app/imf_excel_vectorstore
 # Copy the rest of the application code into the container
 COPY app.py tools.py utils.py summarization_utils.py /app/
 
-# Expose port 8501 (default for Streamlit)
+# Expose port 8080 (Cloud Run expected port)
 EXPOSE 8080
 
-# Start Streamlit when the container runs
-CMD ["streamlit", "run", "app.py"]
+# Start Streamlit and ensure it listens on port 8080 and all network interfaces
+CMD ["streamlit", "run", "app.py", "--server.port=8080", "--server.address=0.0.0.0"]
