@@ -4,6 +4,10 @@ import os
 # Load environment variables from .env file
 load_dotenv()
 
+# Set Streamlit to listen on the correct port provided by Cloud Run
+port = os.getenv('PORT', 8080)  # Default to 8501 if PORT isn't set 
+os.environ["STREAMLIT_SERVER_PORT"] = str(port)
+
 from utils import (
     load_vectorstore_for_country_code,get_country_code_mapping, extract_countries_from_query_news,
     fetch_articles, extract_countries_from_query, create_temp_vectorstore_from_news,
